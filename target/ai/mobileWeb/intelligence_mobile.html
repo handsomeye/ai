@@ -1,0 +1,850 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection"
+          content="telephone=no,email=no,date=no,address=no">
+    <title>智科-ai助手</title>
+    <link rel="stylesheet" type="text/css"
+          href="lib/aui-20170109-v2.1/css/aui.css"/>
+    <link rel="icon" href="../favicon.ico">
+
+    <link rel="stylesheet" href="css/font/iconfont.css">
+    <!--浏览器title的图标-->
+
+    <script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript"
+            src="lib/aui-20170109-v2.1/script/api.js"></script>
+    <script type="text/javascript"
+            src="lib/aui-20170109-v2.1/script/aui-toast.js"></script>
+    <script type="text/javascript"
+            src="lib/aui-20170109-v2.1/script/aui-dialog.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <!--禁止按 F12-->
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+     <style type="text/css">
+         ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+             padding-left: 8px;
+         }
+
+         :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+             padding-left: 8px;
+         }
+
+         ::-moz-placeholder { /* Mozilla Firefox 19+ */
+             padding-left: 8px;
+         }
+
+         :-ms-input-placeholder { /* Internet Explorer 10-11 */
+             padding-left: 8px;
+         }
+
+         .aui-chat .aui-chat-left .aui-chat-arrow {
+             transform: rotate(45deg);
+             left: -0.25rem;
+             background-image: none !important;
+         }
+
+         .aui-chat .aui-chat-right .aui-chat-arrow {
+             transform: rotate(-135deg);
+             right: -0.25rem;
+             background-image: none !important;
+         }
+
+         .aui-chat-content {
+             max-width: 100% !important;
+         }
+
+         .aui-chat-inner {
+             min-width: 20%;
+         }
+
+         body {
+             font-family: Arial, Verdana, Sans-serif;
+         }
+
+         .send-button:hover {
+             background-color: #23527c;
+         }
+
+         .code-header {
+             position: absolute;
+             top: 12px;
+             right: 0;
+             width: 100%;
+             padding: 0 1rem;
+             display: flex;
+             justify-content: flex-end;
+             align-items: center;
+             color: #b3b3b3;
+         }
+
+         .code-header-lang {
+             margin: 0px 15px;
+         }
+
+         .code-header-copy:hover {
+             color: #65a665;
+         }
+
+         .selectable {
+             -webkit-touch-callout: initial;
+             -webkit-user-select: text;
+             -moz-user-select: text;
+             -ms-user-select: text;
+             user-select: text;
+         }
+
+         .aui-btn-info {
+             background-color: #3D7EFF !important;
+             box-shadow: 2px 3px 5px #3D7EFF;
+
+         }
+
+         .aui-btn-info:hover {
+             box-shadow: 3px 4px 6px #3D7EFF;
+         }
+
+         .copy-style {
+             font-size: 10px;
+             /* width: 50px; */
+             position: absolute;
+             right: 5px;
+             top: 9%;
+             /* background-color: #FFFFFF; */
+             background: rgb(246 246 247);
+             border: none;
+             padding-right: 0;
+         }
+
+         .img-style {
+             position: absolute;
+             right: 26px;
+             top: 10%;
+             width: 20px;
+             height: 20px;
+             z-index: 9;
+         }
+
+         .aui-chat .aui-chat-media img {
+             width: 100%;
+             border-radius: 0% !important;
+         }
+
+         .answer-aciton-divider {
+             width: 200%;
+             border-top: 1px solid #dadfec;
+             margin: 10px 0;
+             transform: scale(.5) translateX(-50%);
+         }
+
+         .icon-style {
+             width: 18px;
+             height: 18px;
+         }
+
+         .btn-collect {
+             display: flex;
+             flex-direction: row;
+             justify-content: space-between;
+         }
+
+         .left-location {
+             display: flex;
+             align-items: center;
+         }
+
+         .right-location {
+             display: flex;
+             align-items: center;
+         }
+
+         .marginLeft5 {
+             margin-left: 5px;
+             font-size: 16px;
+         }
+
+         .first-icon {
+             margin-right: 20px;
+             display: flex;
+         }
+
+         .second-icon {
+             margin-right: 20px;
+             display: flex;
+             animation-name: keke3;
+             animation-duration: 3s;
+             animation-timing-function: linear;
+             animation-iteration-count: infinite;
+             animation-direction: alternate;
+         }
+
+         pre {
+             margin-top: 0px !important;
+
+         }
+
+         code {
+             overflow-x: scroll
+         }
+
+         .footer {
+             position: fixed; /* 使用固定定位 */
+             bottom: 0; /* 将底部边缘与视窗底部对齐 */
+             left: 0; /* （可选）若需左侧贴边，添加此行 */
+             right: 0; /* （可选）若需右侧贴边，添加此行 */
+             padding: 10px; /* 添加内边距以适应内容 */
+             text-align: center; /* 示例文本居中对齐 */
+             /*z-index: 9;*/
+             /*height: 20%;*/
+             min-height: 27%;
+             padding: 0
+         }
+
+         .first-section {
+             position: fixed;
+             top: 0;
+             height: 72%;
+             overflow-y: scroll;
+         }
+
+         .copy-right {
+             color: #808080;
+             text-align: center;
+             height: 26px;
+             line-height: 12px;
+             font-size: 12px
+         }
+
+         .body-class {
+             margin: 0px;
+             height: auto;
+             background: rgb(246 246 247);
+             overflow: scroll;
+         }
+
+         /*background: #f1eeee*/
+         .textarea-class {
+             padding: 10px 10px 41px 10px;
+             font-size: 14px;
+             height: 110px;
+             width: 90%;
+             margin-left: 4%;
+             /* border: 1px dashed #c2c2c2; */
+             background: #FFFFFF;
+             border-radius: 8px;
+         }
+
+         .textarea-class:hover {
+             box-shadow: 0 4px 20px 0 rgba(23, 53, 80, .1)
+         }
+
+         .textarea-class:focus {
+             box-shadow: 0 4px 20px 0 rgba(23, 53, 80, .1)
+         }
+
+         .code-class {
+             padding: 25px 10px 0px 10px !important;
+         }
+
+         .pre-class {
+             position: relative;
+             /*display: table;*/
+             overflow-x: scroll;
+         }
+
+         .publish-class {
+             position: absolute;
+             top: 110%;
+             right: 7%;
+             background-color: #67C23A;
+             box-shadow: 2px 3px 5px #67C23A;
+             border-radius: 14px;
+             width: 50px;
+             animation-name: keke;
+             animation-duration: 1s;
+             animation-timing-function: linear;
+             animation-iteration-count: infinite;
+             animation-direction: alternate;
+
+         }
+
+         .img-class {
+             width: 25px;
+             margin-left: 10px;
+
+         }
+
+         .bacground-class {
+             background: #ffffff;
+             height: 48px;
+             width: 90%;
+             margin-left: 4%;
+             position: absolute;
+             top: 96%;
+         }
+
+         .lw-class {
+             position: absolute;
+             /*top: 50%;*/
+             /* right: 5%; */
+             /* background-color: #3D7EFF; */
+             /* box-shadow: 2px 3px 5px #3D7EFF; */
+             left: 15%;
+             border-radius: 14px;
+             width: 30px;
+         }
+
+         .context-class {
+             position: absolute;
+             /*top: 50%;*/
+             left: 5%;
+             /* background-color: #3D7EFF; */
+             /* box-shadow: 2px 3px 5px #3D7EFF; */
+             /* border-radius: 14px; */
+             width: 30px;
+         }
+
+
+         .ul-class{
+             margin-top: 15px;
+             font-weight: bold;
+         }
+         li{
+             margin-top:5px;
+         }
+
+         @keyframes keke {
+             from {
+
+             }
+             to{
+                 transform: translateY(10px);
+             }
+
+         }
+
+         @keyframes keke2 {
+             from {
+                 transform: rotateZ(-3deg);
+             }
+             to{
+                 transform: rotateZ(3deg);
+             }
+
+         }
+
+         @keyframes keke3 {
+             from {
+                 transform: translateY(-3px);
+                 transform: scale(0.8);
+                 transform:rotateZ(-15deg);
+             }
+             to{
+                 transform: translateY(3px);
+                 transform: scale(1.2);
+                 transform:rotateZ(15deg);
+             }
+
+         }
+
+         @keyframes keke4 {
+             from {
+
+             }
+             to{
+                 transform: translateY(5px);
+             }
+
+         }
+         .aui-chat-media{
+             animation-name: keke2;
+             animation-duration: 1s;
+             animation-timing-function: linear;
+             animation-iteration-count: infinite;
+             animation-direction: alternate;
+         }
+
+         .li-text:hover{
+             color:red;
+         }
+         .blueColor{
+             color:#2e317c;
+         }
+         .greenColor{
+             color:#1772b4;
+         }
+         .orangeColor{
+             color:#5a191b;
+         }
+         .li-load{
+             animation-name: keke4;
+             animation-duration: 1s;
+             animation-timing-function: cubic-bezier(0.47, 0, 0.75, 0.72);
+             animation-iteration-count: infinite;
+             animation-direction: alternate;
+         }
+     </style>
+
+ </head>
+ <body class="body-class">
+
+ <section class="aui-chat first-section" id="chatContent">
+     <div class="aui-chat-item aui-chat-left" style="margin-top: 15px;">
+         <div class="aui-chat-media">
+             <img src="image/intelligence/ai-logo1.png"/>
+         </div>
+         <div class="aui-chat-inner" style="max-width:75%;padding-right: 10px">
+             <div class="aui-chat-content" style="background-color: #FFFFFF;">
+                 <div class="aui-chat-arrow" style="background-color: #FFFFFF;margin-top: 5px;"></div>
+                 <div class="selectable">您好，我是 智科 AI助手，有什么可以帮助您的吗？你可以问我：
+                     <ul id="con_left_ul" class ="ul-class">
+                         <li class="li-text blueColor">1.写一篇拥有出人意料结局的推理小说</li>
+                         <li class="li-text orangeColor">2.制定一个深圳一日游的旅游计划</li>
+                         <li class="li-text greenColor">3.广州有什么好吃的小吃</li>
+                         <li class="li-text blueColor" style="display:none">4.你是我的微信朋友圈文案助手，我需要你帮我写微信朋友圈文案，要求:表达我外出游玩的好心情 图片匹配:我会配一张湖边美景图片 字数:50字左右 风格:文言文装逼风</li>
+                         <li class="li-text orangeColor" style="display:none">5.我想让你扮演讲故事的角色。您将想出引人入胜、富有想象力和吸引观众的有趣科幻故事。我的第一个要求是:“主人公 ke仔在编程中建立了一个世界，这个世界永恒存在，只有通过虫洞，穿越时空才能到达”</li>
+                         <li class="li-text greenColor" style="display:none">6.你学习了相关知识:https://zh.wikipedia.org/zh-hans/%E5%8D%A0%E6%98%9F%E6%9C%AF成为了一位占星师，熟悉十二星座知识，熟悉各种占星和星座的知识.能够准确解读星座给出今日运势，请根据我的星座算出我的今日运势:我的星座是:天蝎座:格式要求:整体运势,爱情运势,事业运势,财运运势</li>
+                         <li class="li-text blueColor" style="display:none">7.我希望你能担任英语翻译、拼写校对和修辞改进的角色。我会用任何语言和你交流，你会识别语言，将其翻译并用更为优美和精炼的英语回答我。请将我简单的词汇和句子替换成更为优美和高雅的表达方式，确保意思不变，但使其更具文学性。请仅回答更正和改进的部分，不要写解释。我的第一句话是"人工智能会改变世界吗 ”，请翻译它。</li>
+                         <li class="li-text orangeColor" style="display:none">8.我想让你担任全栈开发工程师面试官。我将成为候选人，您将向我询问全栈开发工程师职位的面试问题。我希望你只作为面试官回答。不要一次写出所有的问题，我希望你只对我进行采访。问我问题，等待我的回答。不要写解释。像面试官一样一个一个问我，等我回答。我的第一句话是"面试官你好”</li>
+                         <li class="li-text greenColor" style="display:none">9.我想让你扮演一名数学老师。我将提供些数学方程式或概念，你的工作是用易于理解的术语来解释它们。这可能包括提供解决问题的分步说明、用视觉演示各种技术或建议在线资源以供进一步研究。我的第一个请求是“微积分的概念是什么，我该如何理解他，你能用通俗易懂的例子帮我解释吗"</li>
+                         <li class="li-text blueColor" style="display:none">10.我想让你做我的法律顾问。我将描述-种法律情况，您将就如何处理它提供建议。你应该只回复你的建议，而不是其他。不要写解释。我的第一个请求是“我被幼儿园小朋友揍了一顿，不知道该怎么办”</li>
+                         <li class="li-text orangeColor" style="display:none">11.我想让你担任招聘人员。我将提供一些关于职位空缺的信息，而你的工作是制走寻找合格申请人的策略。这可能包括通过社交媒体、社交活动甚至参加招聘会接触潜在候选人，以便为每个职位找到最合适的人选。我的第一个请求是"拟一份全栈工程师的招聘需求，要求1.熟练使用vue3+ts,React,AngularJs。2.熟练Java，Redis,Es,RabbitMQ.3.是一名幽默开朗的小伙</li>
+                         <li class="li-text greenColor" style="display:none">12.我想让你担任私人教练。我将为您提供有关希望通过体育锻炼变得更健康、更强壮和更健康的个人所需的所有信息您的职责是根据该人当前的健身水平目标和生活习惯为他们制走最佳计划。您应该利用您的运动科学知识、营养建议和其他相关因素来制走适合他们的计划。我的第一个请求是"我需要帮助为想要减肥的人设计一个锻炼计划。</li>
+                         <li class="li-text blueColor" style="display:none">13.我需要有人可以推荐美味的食谱，这些食谱包括营养有益但又简单又不费时的食物，因此适合像我们这样忙碌的人以及成本效益等其他因素，因此整体菜着最终既健康又经济!我的第一个要求 “一些清淡而充实的东西，可以在午休时间快速煮熟”</li>
+
+                     </ul>
+                     <ul class ="ul-class" id="tips-id" style="display: none;color: #0f95b0;">
+                         <li class="li-tip">小技巧一：在提问 问题时可以使用“#草泥马”来标记问题，该问题的创意度将会提高，更加的天马行空，例如“1.写一篇拥有出人意料结局的推理小说，#草泥马”。
+                         </li>
+                         <li class="li-tip">小技巧二：在提问 问题时可以使用“#呵呵”来标记问题，该问题的确定性将会提高，更加的准确，例如“1.写一篇拥有出人意料结局的推理小说，#呵呵”。
+                         </li>
+                         <li class="li-tip" style="color: #1ba784;">说明：#草泥马，来源于斯坦福发布的大模型Alpaca，翻译成中文即为草泥马。
+                         </li>
+                     </ul>
+                     <ul>
+                         <li class="li-load" onclick="showListItems(true)" id="queryMore" style="text-align: center"><span class="iconfont icon-Expand"></span>查看更多</li>
+                         <li class="li-load" onclick="showListItems(false)" id="queryLess" style="text-align: center;display: none"><span class="iconfont icon-close"></span>收起</li>
+                     </ul>
+
+                 </div>
+             </div>
+         </div>
+     </div>
+
+
+ </section>
+ <section class="footer">
+     <div style="position: relative">
+     <textarea placeholder="请输入您的问题"
+               class="textarea-class"
+               id="questionContent"></textarea>
+
+         <div class="bacground-class"></div>
+         <div class="publish-class" onclick="btnSubmit()"><img class="img-class"
+                                                               src="image/intelligence/publish1.png"/>
+         </div>
+     </div>
+
+
+     <div class="aui-slide-wrap" style="margin-top: 50px;">
+         <div class="copy-right">
+             Copyright © 2024 YeZhiKe. All rights reserved<br/>
+         </div>
+     </div>
+ </section>
+ </body>
+ <script type="text/javascript">
+     //防止页面后退
+     history.pushState(null, null, document.URL);
+     window.addEventListener('popstate', function () {
+         history.pushState(null, null, document.URL);
+     });
+ </script>
+ <script type="text/javascript">
+     apiready = function () {
+         api.parseTapmode();
+     }
+     var toast = new auiToast();
+     var dialog = new auiDialog();
+
+     // 创建一个div设置遮罩的效果，添加aui遮罩的样式
+
+     let map = new Map();
+     //对话列表
+     let arrContent = [];
+
+     //保存numId 和 发送消息的关联
+     let numMap = new Map();
+
+     //保存numid 和 回答内容的关联
+     let contentMap = new Map();
+
+     let dom = document.getElementById('chatContent');
+
+     //判断在localStorage中是否存在dialogueid
+     let dialogueId = localStorage.getItem("dialogueId");
+     if (!dialogueId) {
+         dialogueId = generateDialogueId();
+         // console.log("重新获取dialogueId", dialogueId);
+         localStorage.setItem("dialogueId", dialogueId);
+     }
+
+     function showListItems(val) {
+
+         if(val){
+             //显示
+             $('#con_left_ul .li-text:eq(3)').show();
+             $('#con_left_ul .li-text:eq(4)').show();
+             $('#con_left_ul .li-text:eq(5)').show();
+             $('#con_left_ul .li-text:eq(6)').show();
+             $('#con_left_ul .li-text:eq(7)').show();
+             $('#con_left_ul .li-text:eq(8)').show();
+             $('#con_left_ul .li-text:eq(9)').show();
+             $('#con_left_ul .li-text:eq(10)').show();
+             $('#con_left_ul .li-text:eq(11)').show();
+             $('#con_left_ul .li-text:eq(12)').show();
+             $('#con_left_ul .li-text:eq(13)').show();
+             $('#queryMore').hide();
+             $('#queryLess').show();
+             $('#tips-id').show();
+         }else{
+             //隐藏
+             $('#con_left_ul .li-text:eq(3)').hide();
+             $('#con_left_ul .li-text:eq(4)').hide();
+             $('#con_left_ul .li-text:eq(5)').hide();
+             $('#con_left_ul .li-text:eq(6)').hide();
+             $('#con_left_ul .li-text:eq(7)').hide();
+             $('#con_left_ul .li-text:eq(8)').hide();
+             $('#con_left_ul .li-text:eq(9)').hide();
+             $('#con_left_ul .li-text:eq(10)').hide();
+             $('#con_left_ul .li-text:eq(11)').hide();
+             $('#con_left_ul .li-text:eq(12)').hide();
+             $('#con_left_ul .li-text:eq(13)').hide();
+             $('#queryMore').show();
+             $('#queryLess').hide();
+             $('#tips-id').hide();
+         }
+
+     }
+
+     //生成对话id
+     function generateDialogueId() {
+         const now = new Date();
+         const year = now.getFullYear();
+         const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的，所以需要+1
+         const day = String(now.getDate()).padStart(2, '0');
+         const hours = String(now.getHours()).padStart(2, '0');
+         const minutes = String(now.getMinutes()).padStart(2, '0');
+         const seconds = String(now.getSeconds()).padStart(2, '0');
+
+         var randomPart = Math.random().toString(36).substring(2, 10); // 生成一个随机字符串（36进制，去掉前两位）
+
+         return "dialogue" + "_" + year + month + day + hours + minutes + seconds + "_" + randomPart; // 组合成对话ID
+     }
+
+     let numId = 0;
+
+     let list = document.getElementById('con_left_ul');
+     console.log("list:",list);
+     list.addEventListener('click', function (event) {
+         event = event || window.event;
+         let target = event.target || event.srcElement;
+         // console.log("target:",target.innerText)
+         generateRecords(target.innerText);
+     }, false);
+
+
+     function generateRecords(questionContent) {
+         let html = "";
+         numId++;
+         html += `<div class="aui-chat-item aui-chat-right selectable">
+                         <div class="aui-chat-media">
+                             <img src="image/intelligence/user.png"/>
+                         </div>
+                         <div class="aui-chat-inner" style="max-width:75%;padding-left: 10px">
+
+                             <div class="aui-chat-content" style="background-color: #95ec69;">
+                                 <div class="aui-chat-arrow" style="background-color: #95ec69;margin-top: 5px;"></div>
+                                 <span class="selectable">` + questionContent + `</span>
+                             </div>
+                         </div>
+
+                    </div>`;
+
+         html += `   <div class="aui-chat-item aui-chat-left selectable">
+                             <div class="aui-chat-media">
+                                 <img src="image/intelligence/ai-logo1.png"/>
+                             </div>
+                             <div class="aui-chat-inner" style="max-width:75%;padding-right: 10px">
+                                 <div class="aui-chat-content" style="background-color: #FFFFFF;">
+                                     <div class="aui-chat-arrow" style="background-color: #FFFFFF;margin-top: 5px;"></div>
+                                     <span style="margin-bottom: 10px" class="selectable" id="span` + numId + `"><img src="image/intelligence/loading4.gif" width="50px"></span>
+                                     <div class="answer-aciton-divider"></div>
+                                     <div class="btn-collect" id="collect` + numId + `">
+
+                                     </div>
+                                 </div>
+                             </div>
+                     </div>`;
+
+
+         $('#chatContent').append(html);
+         numMap.set(numId, questionContent);
+
+         $('#questionContent').val("");
+
+         //滚动到底部
+         // let dom = document.getElementById('chatContent');
+         // console.log("dom.scrollHeight:",dom.scrollHeight)
+         dom.scrollTo({
+             top: dom.scrollHeight,
+             behavior: 'smooth' // 可选，添加平滑滚动效果
+         });
+
+         setTimeout(function () {
+             ajaxSubmit(questionContent);
+         }, 100);
+
+
+     }
+
+     //复制代码
+     function copyCode(id) {
+         let num = id.split("btn")[1];
+         let codeText = map.get("code" + num);
+
+         copyFn(codeText)
+     }
+
+     //复制公有函数
+     function copyFn(codeText) {
+         toast.success({
+             title: "复制成功！",
+             duration: 800
+         });
+
+         let input = document.createElement('textarea')
+         input.style.position = 'fixed'
+         input.style.top = '-10000px'
+         input.style.zIndex = '-999'
+         document.body.appendChild(input)
+         input.value = codeText
+         input.focus()
+         input.select()
+         try {
+             let result = document.execCommand('copy')
+             document.body.removeChild(input)
+             if (!result || result === 'unsuccessful') {
+                 return Promise.reject('复制失败')
+             } else {
+                 return Promise.resolve()
+             }
+         } catch (e) {
+             document.body.removeChild(input)
+             return Promise.reject(
+                 '当前浏览器不支持复制功能，请检查更新或更换其他浏览器操作'
+             )
+         }
+     }
+
+     async function ajaxSubmit(questionContent) {
+
+
+         let obj = {content: questionContent, role: 'user'}
+         arrContent.push(obj);
+
+         let req = {
+             "dialogueId": dialogueId,
+             "messages": arrContent,
+             "model": "Baichuan3-Turbo",
+             "temperature": 0.7,
+             "top_p": 0.9,
+             "top_k": 10,
+             "stream": true,
+             "max_tokens": 2048
+         }
+
+         const url = '/ai/intelligence/doLsQuestion_mobile'
+         const resp = await fetch(url, {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify(req)
+         })
+         const reader = resp.body.getReader()
+         const decoder = new TextDecoder()
+
+         let html2 = '';
+         let html = '';
+         let content = '';
+         let number = 0;
+         let codeFlag = false;
+         let code = "";
+         let codeHtml = "";
+         while (1) {
+             number++;
+             const {done, value} = await reader.read()
+             if (done) {
+                 break;
+             }
+             let txt = decoder.decode(value)
+             //txt就是一个一个的字 然后添加到页面上就可以了
+             // console.log("txt:", txt)
+             // txt = txt.replaceAll("**","").replaceAll("<","&#60;").replaceAll("\n\n","<br/>")
+             content += txt;
+             if (txt.indexOf("```") != -1) {
+                 codeFlag = !codeFlag;
+                 let split = txt.split("```");
+                 if (codeFlag) {
+                     //将原始代码存在map中，复制代码时将用到
+                     code = code + split[1];
+                     map.set("code" + number, code)
+
+                     let formatStr = split[1].replaceAll("<", "&#60;");
+                     codeHtml = codeHtml + formatStr;
+
+                     html2 = html + split[0];
+
+                     let html3 = `<pre class="pre-class">
+                                             <img class="img-style" style="display: none" src="image/intelligence/copy.png" id="btn` + number + `" onclick="copyCode(this.id)"/>
+                                             <button class="copy-style" style="display: none" id="btn` + number + `"  onclick="copyCode(this.id)">复制</button>
+                                         <code id="code` + number + `" class="selectable language-java code-class">` + codeHtml + `</code>
+                                   </pre>`;
+                     html = html2 + html3;
+
+                     $('#span' + numId).html(html);
+
+                     hljs.highlightAll();
+                     continue;
+                 } else {
+                     code = code + split[0];
+                     map.set("code" + number, code)
+
+                     let formatStr = split[0].replaceAll("<", "&#60;");
+                     codeHtml = codeHtml + formatStr;
+                     let html3 = `<pre class="pre-class">
+                                             <img class="img-style" src="image/intelligence/copy.png" id="btn` + number + `" onclick="copyCode(this.id)"/>
+                                             <button class="copy-style" id="btn` + number + `"  onclick="copyCode(this.id)">复制</button>
+                                         <code id="code` + number + `" class="selectable language-java code-class">` + codeHtml + `</code>
+                                   </pre>`;
+                     html = html2 + html3 + split[1];
+                     $('#span' + numId).html(html);
+                     hljs.highlightAll();
+                     continue;
+                 }
+             }
+             if (codeFlag) {
+                 //将原始代码存在map中，复制代码时将用到
+                 code = code + txt;
+                 map.set("code" + number, code)
+                 let formatStr = txt.replaceAll("<", "&#60;")
+                 codeHtml = codeHtml + formatStr;
+                 let html3 = `<pre class="pre-class">
+                                                 <img class="img-style" style="display: none" src="image/intelligence/copy.png" id="btn` + number + `" onclick="copyCode(this.id)"/>
+                                                 <button class="copy-style" style="display: none" id="btn` + number + `"  onclick="copyCode(this.id)">复制</button>
+                                             <code id="code` + number + `" class="selectable language-java code-class">` + codeHtml + `</code>
+                                   </pre>`;
+                 html = html2 + html3;
+
+                 $('#span' + numId).html(html);
+
+                 hljs.highlightAll();
+             } else {
+                 txt = txt.replaceAll("**", "").replaceAll("<", "&#60;").replaceAll("\n\n", "<br/>")
+                 html += txt;
+                 contentMap.set(numId, content)
+                 $('#span' + numId).html(html);
+                 hljs.highlightAll();
+             }
+
+             //滚动到底部
+             // let dom = document.getElementById('chatContent');
+             // console.log("dom.scrollHeight:",dom.scrollHeight)
+             dom.scrollTo({
+                 top: dom.scrollHeight,
+                 behavior: 'smooth' // 可选，添加平滑滚动效果
+             });
+         }
+         let collectHtml = ` <div class = "left-location" onclick="resend(` + numId + `)">
+                                     <img class="icon-style" src="image/intelligence/reflesh.png"/>
+                                     <span class="marginLeft5">重新生成</span>
+                             </div>
+                             <div class = "right-location">
+
+                                     <div class="first-icon" onclick="copyAll(` + numId + `)"><img class="icon-style" src="image/intelligence/copy.png"/><span>复制</span></div>
+                                     <div class="second-icon" onclick="alertImg()"><img class="icon-style" src="image/intelligence/good1.png"/><span>赞赏</span></div>
+ <!--                                    <div class="third-icon"><img class="icon-style" src="image/intelligence/low1.png"/></div>-->
+                           </div>`
+        $('#collect' + numId).html(collectHtml);
+        let respMes = {};
+        respMes.role = 'assistant';
+        respMes.content = content;
+        arrContent.push(respMes);
+
+        // console.log("html:", html)
+        // $('#span'+numId).html(html);
+        dom.scrollTo({
+            top: dom.scrollHeight,
+            behavior: 'smooth' // 可选，添加平滑滚动效果
+        });
+
+    }
+
+    //重新生成
+    function resend(nid) {
+        let imgHtml = `<img src="image/intelligence/loading4.gif" width="50px">`
+        $('#span' + nid).html(imgHtml)
+        let queryContent = numMap.get(nid);
+        ajaxSubmit(queryContent);
+
+    }
+
+    //复制全部
+    function copyAll(numVal) {
+        let content = contentMap.get(numVal);
+        copyFn(content)
+    }
+
+    //赞赏
+    function alertImg(){
+        dialog.alert({
+            title: "<div style='font-weight: bold'>赞赏-长按图片即可识别</div>",
+            msg: `<img src="image/intelligence/zs.jpg"></img>`,
+            buttons: ['取消', '确定']
+        }, function (ret) {
+
+        })
+    }
+
+    //提交回复
+    function btnSubmit() {
+        let questionContent = $('#questionContent').val();
+        if (!questionContent.trim()) {
+            dialog.alert({
+                title: "提示",
+                msg: '输入的内容不能为空',
+                buttons: ['确定']
+            }, function (ret) {
+            });
+            return false;
+        }
+
+        generateRecords(questionContent);
+
+    }
+
+    document.addEventListener("keyup", function (event) {
+        // 判断按下的键是不是 Enter 键（keyCode：13）
+        if (event.keyCode === 13) {
+            btnSubmit();
+        }
+    });
+</script>
+</html>
+
+
