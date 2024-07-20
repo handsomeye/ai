@@ -415,6 +415,7 @@
                          <li class="li-text orangeColor" style="display:none">11.我想让你担任招聘人员。我将提供一些关于职位空缺的信息，而你的工作是制走寻找合格申请人的策略。这可能包括通过社交媒体、社交活动甚至参加招聘会接触潜在候选人，以便为每个职位找到最合适的人选。我的第一个请求是"拟一份全栈工程师的招聘需求，要求1.熟练使用vue3+ts,React,AngularJs。2.熟练Java，Redis,Es,RabbitMQ.3.是一名幽默开朗的小伙</li>
                          <li class="li-text greenColor" style="display:none">12.我想让你担任私人教练。我将为您提供有关希望通过体育锻炼变得更健康、更强壮和更健康的个人所需的所有信息您的职责是根据该人当前的健身水平目标和生活习惯为他们制走最佳计划。您应该利用您的运动科学知识、营养建议和其他相关因素来制走适合他们的计划。我的第一个请求是"我需要帮助为想要减肥的人设计一个锻炼计划。</li>
                          <li class="li-text blueColor" style="display:none">13.我需要有人可以推荐美味的食谱，这些食谱包括营养有益但又简单又不费时的食物，因此适合像我们这样忙碌的人以及成本效益等其他因素，因此整体菜着最终既健康又经济!我的第一个要求 “一些清淡而充实的东西，可以在午休时间快速煮熟”</li>
+                         <li class="li-text blueColor" style="display:none">14.我希望你扮演一个编剧，为一部长电影或网络剧编写一个吸引人、有创意的剧本，让观众着迷。首先想出有趣的角色、故事背景、人物之间的对话等。一旦你完成了角色的开发，就可以创作一个充满转折和悬念的精彩故事，一直让观众保持紧张，直到故事的结局。我的第一个要求是：“写一部发生在太阳上的科幻故事。”</li>
 
                      </ul>
                      <ul class ="ul-class" id="tips-id" style="display: none;color: #0f95b0;">
@@ -508,6 +509,7 @@
              $('#con_left_ul .li-text:eq(11)').show();
              $('#con_left_ul .li-text:eq(12)').show();
              $('#con_left_ul .li-text:eq(13)').show();
+             $('#con_left_ul .li-text:eq(14)').show();
              $('#queryMore').hide();
              $('#queryLess').show();
              $('#tips-id').show();
@@ -524,6 +526,7 @@
              $('#con_left_ul .li-text:eq(11)').hide();
              $('#con_left_ul .li-text:eq(12)').hide();
              $('#con_left_ul .li-text:eq(13)').hide();
+             $('#con_left_ul .li-text:eq(14)').hide();
              $('#queryMore').show();
              $('#queryLess').hide();
              $('#tips-id').hide();
@@ -668,7 +671,14 @@
              "max_tokens": 2048
          }
 
-         const url = '/ai/intelligence/doLsQuestion_mobile'
+         const hrefUrl = window.location.href
+         let url = '/intelligence/doLsQuestion_mobile'
+         if(hrefUrl.indexOf("ai")>-1){
+             url= '/ai/intelligence/doLsQuestion_mobile'
+         }
+         console.log("url:",url)
+
+
          const resp = await fetch(url, {
              method: 'POST',
              headers: {
